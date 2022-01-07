@@ -9,7 +9,7 @@ class Point:
 class Context:
     def __init__(self):
         pass
-    def add_points(self, points):
+    def add_other_context(self, context):
         pass
 
     def add_point(self,point):
@@ -57,21 +57,41 @@ class Sensor:
 class Step:
     def __init(self):
         self.action_set # add fixed point or floating points to context
-        self.effecter # return contexts!
+        self.step_memorized       # return contexts!
         self.on_events
-        self.is_fixed # either action set center or all points of triggering of on_event
+        self.new_point_is_fixed # either action set center or all points of triggering of on_event
 
 
 class OnEvent:
     def __init__(self):
+        self.uid
         self.event_checker
-        self.next_effecter
-        self.id_in_context
+        self.next_step
+        self.index_in_context
         self.predictions_corrector
 
 class MergedStep:
     def __init__(self, steps_to_merge):
-        pass
+        self.steps
+
+
+def run_pure_recognition(step, point):
+    on_event, context = step.get_on_event(point)
+    while True:
+        top_uid = on_event.uid
+        step = on_event.next_step
+        if step is None:
+            break
+        point = context.get_by_index(on_event.index_in_context)
+        on_event, new_context = step.get_on_event(point)
+        context.add_other_context(new_context)
+    return top_uid
+
+
+
+
+
+
 
 
 
