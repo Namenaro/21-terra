@@ -81,8 +81,6 @@ class Prediction:
         self.onevent_uid
         self.event_uid_probability
 
-
-
 class MergedStep:
     def __init__(self, steps_to_merge):
         self.steps
@@ -107,7 +105,6 @@ class PredictionsRegisterInSession: #in abs coords 28x28 (В ск, не связ
     def _gather_stat_for_binary_events(self):
         pass
 
-
 def run_pure_recognition(step, point):
     on_event, context = step.get_on_event(point)
     while True:
@@ -121,6 +118,13 @@ def run_pure_recognition(step, point):
     return top_uid
 
 
+class Hypo
+def run_with_finding_coincedences():
+    #make hypothesys
+    pass
+
+def check_hypothesys(hypothesys):
+    pass
 
 
 
