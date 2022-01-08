@@ -118,18 +118,26 @@ def run_pure_recognition(step, point):
     return top_uid
 
 
-class Hypo:
+class HypoType1:
     pass
 
 def run_with_finding_coincedences():
-    #find sytuation with three rare events:
+    #Случай1:
+    #
+    #  предикшен Б на пустом месте (т.е. в этой кооринате не предсказывалось редкое событие,
+    # а оно случилось- тогда мы его учимся предсказывать)
+    # тогда для формирования гипотезы нужны 3 редких события:
     # base_descr A + new_step U + prediction B (wich info(B|AU) > max(info(B), info(B|A), info(B|U))
-    #make hypothesys of type 1
+    # результат: make hypothesys of type 1
 
+    #Случай2:
+    # Для координаты предсказывали редкое событие Б1, а случилось редкое событие Б2.
+    # Делаем гипотезу о слиянии Б=Б1 или Б2
+    # результат6 make hypothesys of type 2
 
     pass
 
-def check_hypothesys(hypothesys):
+def check_hypothesys_type1(hypothesys):
     pass
 
 
