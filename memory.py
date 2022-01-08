@@ -118,9 +118,15 @@ def run_pure_recognition(step, point):
     return top_uid
 
 
-class Hypo
+class Hypo:
+    pass
+
 def run_with_finding_coincedences():
-    #make hypothesys
+    #find sytuation with three rare events:
+    # base_descr A + new_step U + prediction B (wich info(B|AU) > max(info(B), info(B|A), info(B|U))
+    #make hypothesys of type 1
+
+
     pass
 
 def check_hypothesys(hypothesys):
