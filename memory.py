@@ -101,6 +101,12 @@ class PredictionsRegisterInSession: #in abs coords 28x28 (В ск, не связ
     def is_event_rare_by_current_prediction(self, x_abs, y_abs, step, event_uid):
         return probability_of_event_uid_in_current_situation
 
+    def _make_default_prediction_for_event(self):
+        pass
+
+    def _gather_stat_for_binary_events(self):
+        pass
+
 
 def run_pure_recognition(step, point):
     on_event, context = step.get_on_event(point)
