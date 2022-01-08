@@ -61,6 +61,7 @@ class Step:
         self.on_events
         self.new_point_is_fixed # either action set center or all points of triggering of on_event
 
+        self.link_to_parent_event
 
 class OnEvent:
     def __init__(self):
@@ -68,11 +69,37 @@ class OnEvent:
         self.event_checker
         self.next_step
         self.index_in_context
-        self.predictions_corrector
+        self.nontrivial_predictions
+
+        self.link_to_parent_step
+
+class Prediction:
+    def __init__(self):
+        self.condext_index
+        self.step_memorzed
+        self.action_set
+        self.onevent_uid
+        self.event_uid_probability
+
+
 
 class MergedStep:
     def __init__(self, steps_to_merge):
         self.steps
+        #add cloud to context
+
+class PredictionsRegisterInSession: #in abs coords 28x28 (В ск, не связанной с ни одной из программ)
+    def __init__(self):
+        pass
+
+    def register_corrector(self, nontrivial_predictions, context):
+        pass
+
+    def _register_new_nontrivial_prediction(self, x_abs,y_abs, step, distr_on_events_uids):
+        pass
+
+    def is_event_rare_by_current_prediction(self, x_abs, y_abs, step, event_uid):
+        return probability_of_event_uid_in_current_situation
 
 
 def run_pure_recognition(step, point):
@@ -86,6 +113,8 @@ def run_pure_recognition(step, point):
         on_event, new_context = step.get_on_event(point)
         context.add_other_context(new_context)
     return top_uid
+
+
 
 
 
