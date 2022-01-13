@@ -3,8 +3,10 @@ class Exp:
         self.uset = uset
         self.sensor_exp = sensor_exp
 
-        self.event_uid = None
+        self.tru_event_uid = None
         self.tru_uid_users = []
+
+        self.false_event_uid = None
         self.false_uid_users = []
 
         self.is_floating = False

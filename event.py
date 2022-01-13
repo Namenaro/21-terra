@@ -8,6 +8,7 @@ class Event:
         self.nontrivial_predictions = None
 
         self.link_to_parent_exp = parent_exp
+        self.p = None  # безусловная частота наступления этого события
 
 
 class MergedEvent:
