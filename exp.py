@@ -41,9 +41,5 @@ class USet:
     def get_all_actions(self, point):
         return all_actions
 
-class MergedStep:
-    def __init__(self, steps_to_merge):
-        self.exps
-        #add cloud to context
 
 

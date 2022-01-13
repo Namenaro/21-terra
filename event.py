@@ -8,3 +8,9 @@ class Event:
         self.nontrivial_predictions = None
 
         self.link_to_parent_exp = parent_exp
+
+
+class MergedEvent:
+    def __init__(self, steps_to_merge):
+        self.events
+        #add cloud to context
