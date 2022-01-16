@@ -1,28 +1,43 @@
 class Prediction:
+    def __init__(self, event_uid, corrected_p):
+        self.event_uid = event_uid
+        self.corrected_p = corrected_p
+
+
+class PredictionsSession:
     def __init__(self):
-        self.index_in_context
-        self.step_memorzed
-        self.action_set
-        self.onevent_uid
-        self.event_uid_probability
+        self.points_events={}      # {abspoint: [uid]}
+        self.points_predictions={} # {abspoint: {event_uid: corrected_p}}
+
+    def register_prediction(self, prediction, abspoint):
+        if abspoint not in self.points_predictions:
+            self.points_predictions[abspoint]= {prediction.event_uid: prediction.corrected_p}
+        else:
+            self.points_predictions[abspoint][prediction.event_uid] = prediction.corrected_p
+
+    def register_event(self, event, abspoint):
+        if abspoint not in self.points_events:
+            self.points_events[abspoint]= [event.uid]
+        else:
+            self.points_events[abspoint].append(event.uid)
+
+    def check_predicted_probability_of_event(self, event, abspoint):
 
 
 
-class PredictionsRegisterInSession: #in abs coords 28x28 (В ск, не связанной с ни одной из программ)
-    def __init__(self):
-        pass
+class HypoPrediction:
+    def __init__(self, test_uid, test_point, base_uid, context, test_uid_default_p):
+        self.test_uid = test_uid
+        self.base_uid = base_uid
+        self.test_uid_defauil_p = test_uid_default_p
 
-    def register_corrector(self, nontrivial_predictions, context):
-        pass
+    def evaluate(self):
+        ...
+        prediction = Prediction(...)
+        actual_p = ....
+        significance = abs(self.test_uid_defauil_p - actual_p)
+        return prediction, significance
 
-    def _register_new_nontrivial_prediction(self, x_abs,y_abs, step, distr_on_events_uids):
-        pass
 
-    def is_event_rare_by_current_prediction(self, x_abs, y_abs, step, event_uid):
-        return probability_of_event_uid_in_current_situation
 
-    def _make_default_prediction_for_event(self):
-        pass
 
-    def _gather_stat_for_binary_events(self):
-        pass
