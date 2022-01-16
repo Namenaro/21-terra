@@ -22,21 +22,20 @@ class PredictionsSession:
             self.points_events[abspoint].append(event.uid)
 
     def check_predicted_probability_of_event(self, event, abspoint):
+        if abspoint in self.points_events:
+            if event.uid in self.points_events[abspoint]:
+                return None # не надо предсказывать уже известное
+        if abspoint not in self.points_predictions:
+            return event.p # по нему нет предсказаний
+        if event.uid not in self.points_predictions[abspoint]:
+            return event.p # по нему нет предсказаний
+        corrected_p = self.points_predictions[abspoint][event.uid]
+        return corrected_p # для него есть корректировка
 
 
 
-class HypoPrediction:
-    def __init__(self, test_uid, test_point, base_uid, context, test_uid_default_p):
-        self.test_uid = test_uid
-        self.base_uid = base_uid
-        self.test_uid_defauil_p = test_uid_default_p
 
-    def evaluate(self):
-        ...
-        prediction = Prediction(...)
-        actual_p = ....
-        significance = abs(self.test_uid_defauil_p - actual_p)
-        return prediction, significance
+
 
 
 

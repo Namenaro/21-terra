@@ -1,18 +1,44 @@
+class Point:
+    def __init__(self,x,y):
+        self.x=x
+        self.y=y
+
+def dist(point1, point2):
+    return abs(point1.x-point2.x) + abs(point1.y-point2.y)
+
 class Context:
     def __init__(self):
         self.points = []
 
-    def add_other_context(self, context):
-        pass
+    def append_context(self, context):
+        if len(context.points)>0:
+            self.points.append(context.points)
 
     def add_point(self,point):
-        pass
+        self.points.append(point)
 
     def get_by_index(self, index):
-        pass
+        return self.point[index]
 
-    def find_nearest_point(self, point):
-        pass
+    def find_nearest_points_indexes(self, point):
+        if len(self.points)==0:
+            return None
+        indexes_dist= {}
+        for i in range(len(self.points)):
+            indexes_dist[i] = dist(self.points[i], point)
+        sorted_indexes = sorted(indexes_dist, key=indexes_dist.get)
+        return sorted_indexes
 
-    def add_context_as_cloud(self, context):
-        pass
+    def add_context_as_point(self, context):
+        xs = 0
+        ys = 0
+        n = len(context.points)
+        if n > 0:
+            for point in context.points:
+                xs += point.x
+                ys += point.y
+        meanx= int(xs/n)
+        meany = int(ys/n)
+        self.add_point(Point(meanx,meany))
+
+
