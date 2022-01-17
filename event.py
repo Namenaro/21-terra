@@ -1,31 +1,70 @@
-class Exp:
-    def __init(self, uset, sensor_exp="simple_sensor", parent_event_uid=None):
-        self.uset = uset
-        self.sensor_exp = sensor_exp
+from elinker import *
+from event import *
+from utils import *
+from predict import *
 
-        self.tru_event_uid = None
-        self.tru_uid_users = []
+linker = ELinker()
+elementary_sensor = SimpleSensor()
 
-        self.false_event_uid = None
-        self.false_uid_users = []
+class BasicSen:
+    def __init__(self):
+        s_uid = linker.generate_uid()
+        linker.set_basic(s_uid)
 
-        self.is_floating = False
+    def run(self, abspoint):
+        res = elementary_sensor.measure(abspoint)
+        return res
 
-        self.parent_event_uid = parent_event_uid
+basic_sen = BasicSen()
+linker[basic_sen.s_uid] = basic_sen
 
-class Event:
-    def __init__(self, uid, event_etalon, parent_exp):
-        self.uid = uid
-        self.etalon = event_etalon #1 OR 0
-        self.next_uid = None
-        self.index_in_context = None #
-        self.nontrivial_predictions = None
-
-        self.link_to_parent_exp = parent_exp
-        self.p = None  # безусловная частота наступления этого события
+class Act:
+    def __init__(self, shift, du, index_in_context):
+        self.shift
+        self.du
+        self.index_in_context
 
 
-class MergedEvent:
-    def __init__(self, steps_to_merge):
-        self.events
-        #add cloud to context
+class Sen:
+    def __init__(self, suid1, etalon1, act, suid2, etalon2): #начиннается с сенсора, запускается из abspoint
+        self.s_uid = linker.generate_uid()
+        self.suid1 = suid1
+        self.act = act
+        self.next_suid =suid2
+
+        self.etalon1 = etalon1
+        self.etalon2 = etalon2
+        self.preds = []
+
+class Pred:
+    def __init__(self, act, s_uid, corr_p1):
+        self.act =act
+        self.s_uid = s_uid
+        self.corr_p1=corr_p1
+
+some_act = Act(shift= (2,3), du=[[0,0],[0,1]], index_in_context=0)
+sen2 = Sen(suid1=basic_sen.s_uid, act= some_act, next_suid=basic_sen.s_uid)
+sen3 = Sen(suid1=sen2.s_uid, act=some_act, next_suid=basic_sen.s_uid)
+sen4 = Sen(suid1=sen2.s_uid, act=some_act, next_suid=sen3.s_uid)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
