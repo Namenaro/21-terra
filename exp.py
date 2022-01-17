@@ -13,16 +13,7 @@ class Exp:
 
         self.parent_event_uid = parent_event_uid
 
-class SimpleSensor:
-    def __init__(self):
-        pass
-    def set_picture(self,picture):
-        pass
 
-    def measure(self, point):
-        if self.picture[point]>5:
-            return 1
-        return 0
 
 class USet:
     def __init__(self, dx=0, dy=0):

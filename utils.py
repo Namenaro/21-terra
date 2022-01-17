@@ -161,3 +161,16 @@ def plot_graph(X, Y):
     fig, ax = plt.subplots()
     ax.plot(X,Y, marker='o', markerfacecolor='blue', markersize=12, color='skyblue', linewidth=4)
     return fig
+
+
+class SimpleSensor:
+    def __init__(self):
+        self.pic = etalons_of3()[0]
+
+    def reset_picture(self,picture):
+        self.pic = picture
+
+    def measure(self, point):
+        if sense(self.pic, point)>5:
+            return 1
+        return 0
