@@ -162,6 +162,11 @@ def plot_graph(X, Y):
     ax.plot(X,Y, marker='o', markerfacecolor='blue', markersize=12, color='skyblue', linewidth=4)
     return fig
 
+class Point:
+    def __init__(self,x,y):
+        self.x=x
+        self.y=y
+
 
 class SimpleSensor:
     def __init__(self):
@@ -174,3 +179,26 @@ class SimpleSensor:
         if sense(self.pic, point)>5:
             return 1
         return 0
+
+class USet:
+    def __init__(self, dx=0, dy=0):
+        self.dx = dx
+        self.dy = dy
+        self.ddxs=[0]
+        self.ddys=[0]
+
+    def add(self, ddx, ddy):
+        self.ddxs.append(ddx)
+        self.ddys.append(ddy)
+
+    def get_center(self):
+        return self.dx, self.dy
+
+    def get_all_actions(self, point):
+        all_actions = []
+        for i in range(len(self.ddxs)):
+            x = point.x + self.dx + self.ddxs[i]
+            y = point.y + self.dy + self.ddys[i]
+            all_actions.append(Point(x,y))
+        return all_actions
+

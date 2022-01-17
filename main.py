@@ -1,7 +1,6 @@
-
 from elinker import *
-from exp import *
 from event import *
+from utils import *
 
 linker = ELinker()
 elementary_sensor = SimpleSensor()

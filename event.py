@@ -1,3 +1,17 @@
+class Exp:
+    def __init(self, uset, sensor_exp="simple_sensor", parent_event_uid=None):
+        self.uset = uset
+        self.sensor_exp = sensor_exp
+
+        self.tru_event_uid = None
+        self.tru_uid_users = []
+
+        self.false_event_uid = None
+        self.false_uid_users = []
+
+        self.is_floating = False
+
+        self.parent_event_uid = parent_event_uid
 
 class Event:
     def __init__(self, uid, event_etalon, parent_exp):

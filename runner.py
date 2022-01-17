@@ -1,6 +1,11 @@
 from elinker import *
 
-def try_run_uid_from_point(uid, point):
-    start_uids = el.get_first_level_uids()
+#направленное распознавание без проверки предсказаний
+def run_uid_from_point(uid, point):
+    return parent_uids, contexts
+
+#НЕнаправленное распознавание без проверки предсказаний
+def run_uid_from_point(uid, point):
+    return parent_uids, contexts
 
 
