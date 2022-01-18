@@ -15,7 +15,7 @@ class ELinker:
         return uuid.uuid4()
 
     def set_basic(self, s_uid):
-        self.basic = s_uid
+        self.basic_suid = s_uid
 
     def is_basic(self, s_uid):
         if s_uid == self.basic:
@@ -35,7 +35,7 @@ class ELinker:
         self.events[suid][1].append(link)
 
 
-class RunnerDirected:
+class Runner:
     def __init__(self, linker):
         self.linker = linker
         self.sensor = SimpleSensor()
@@ -79,10 +79,17 @@ class RunnerDirected:
             return None
         return result_contexts
 
-class RunnerUndirected:
-    def __init__(self, linker):
-        self.linker = linker
-        self.sensor = SimpleSensor()
 
-    def run(self, abspoint, suid, contexts):
-        self
+
+    def run(self, abspoint):
+        suid = self.linker.basic_suid
+        context = Context()
+        res = self.sensor.measure(abspoint)
+        if res == 1:
+            nexts = self.linker.get_links(suid)
+
+        returns suids_sucessfully_checked
+
+
+def range_suids_by_rareness(suids_list):
+    return ranged_suids_list
