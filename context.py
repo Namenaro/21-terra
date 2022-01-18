@@ -1,4 +1,5 @@
 from utils import *
+from copy import deepcopy
 
 def dist(point1, point2):
     return abs(point1.x-point2.x) + abs(point1.y-point2.y)
@@ -39,3 +40,12 @@ class Context:
         self.add_point(Point(meanx,meany))
 
 
+def merge_2_contexts(c1, c2):
+    c3 = deepcopy(c1)
+    c3.append_context(c2)
+    return c3
+
+def merge_context_and_point(c1, point):
+    c2 = deepcopy(c1)
+    c2.add_point(point)
+    return c2
