@@ -9,6 +9,7 @@ class ELinker:
     def __init__(self):
         self.events = {}  # suid: sen, [links]
         self.basic_suid = self.generate_uid()
+        self.events[self.basic_suid]=[None, []]
 
     def generate_uid(self):
         return uuid.uuid4()
@@ -34,12 +35,12 @@ class ELinker:
         self.events[suid][1].append(link)
 
 
-class Runner:
+class RunnerDirected:
     def __init__(self, linker):
         self.linker = linker
         self.sensor = SimpleSensor()
 
-    def run_suid(self, suid, abspoint1, etalon):
+    def run_suid(self, suid, abspoint1, etalon=None):
         # возможно, это базовый сенсор...
         if self.linker.is_basic(suid):
             res = self.sensor.measure(abspoint1)
@@ -67,9 +68,21 @@ class Runner:
                     continue # из этой точки запуск второй подпрограммы не успешен
                 # один или несколько пуской второй подпрограммы были успешны
                 if sen.is_fixed:
-                    point=sen.act.get_center_point(abspoint2)
+                    x = abspoint2.x + sen.act.dx
+                    y = abspoint2.y + sen.act.dy
+                    point=Point(x, y)
                     result_contexts.append(merge_context_and_point(context1, point))
                 else: #floating context point setting
                     for c2 in contexts2:
                         result_contexts.append(merge_2_contexts(context1, c2))
+        if len(result_contexts)==0:
+            return None
         return result_contexts
+
+class RunnerUndirected:
+    def __init__(self, linker):
+        self.linker = linker
+        self.sensor = SimpleSensor()
+
+    def run(self, abspoint, suid, contexts):
+        self
