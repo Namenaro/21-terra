@@ -27,6 +27,12 @@ class Act:
             several_abspoints.append(Point(x,y))
         return several_abspoints
 
+    def get_center(self, context):
+        abspoint = context.get_by_index(self.index_in_context)
+        cx = abspoint.x + self.dx
+        cy = abspoint.y + self.dy
+        return Point(cx, cy)
+
 
 class Sen:
     def __init__(self, suid, suid1, etalon1, act, suid2, etalon2, is_fixed):  # начиннается с сенсора, запускается из abspoint

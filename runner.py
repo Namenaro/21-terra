@@ -17,7 +17,7 @@ class Runner:
         else:
             return 0, []
 
-    def run_sen(self, suid, abspoint, etalon=None):
+    def run_sen(self, suid, abspoint, etalon):
         if self.linker.is_basic(suid):
             res, contexts=self._run_bsen( abspoint, etalon)
             return res, contexts
@@ -39,13 +39,19 @@ class Runner:
                     continue
                 # один или несколько пуской второй подпрограммы были успешны
                 if sen.is_fixed:
-                    x = abspoint2.x + sen.act.dx
-                    y = abspoint2.y + sen.act.dy
-                    point=Point(x, y)
-                    result_contexts.append(merge_context_and_point(context1, point))
+                    point=sen.act.get_center(context1)
+                    c = merge_context_and_point(context1, point)
+                    result_contexts.append(c)
                 else: #floating context point setting
                     for c2 in contexts2:
                         result_contexts.append(merge_2_contexts(context1, c2))
+
         if len(result_contexts) == 0:
-            return 0, result_contexts
-        return 1, result_contexts
+            res =0
+        else:
+            res =1
+        if res == 1 and etalon==1:
+            return 1, result_contexts
+        if res == 0 and etalon==0:
+            return 1, []
+        return 0, []

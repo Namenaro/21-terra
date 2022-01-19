@@ -236,3 +236,15 @@ def get_point_handly(pic):
     return Point(X[0],Y[0])
 
 
+def plot_contexts(cs, pic):
+    fig, ax = plt.subplots()
+    plt.imshow(pic, cmap='gray_r')
+    for c in cs:
+        color=np.random.rand(3,)
+        i=0
+        for point in c.points:
+            strmarker = '$' + str(i) + '$'
+            plt.scatter(point.x, point.y, s=100, c=[color], marker=strmarker, alpha=0.9)
+            i+=1
+    return fig
+
