@@ -10,7 +10,7 @@ class Context:
 
     def append_context(self, context):
         if len(context.points)>0:
-            self.points.append(context.points)
+            self.points= self.points+ context.points
 
     def add_point(self,point):
         self.points.append(point)

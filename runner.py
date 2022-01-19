@@ -44,8 +44,8 @@ class Runner:
                     result_contexts.append(c)
                 else: #floating context point setting
                     for c2 in contexts2:
-                        result_contexts.append(merge_2_contexts(context1, c2))
-
+                        c = merge_2_contexts(context1, c2)
+                        result_contexts.append(c)
         if len(result_contexts) == 0:
             res =0
         else:
