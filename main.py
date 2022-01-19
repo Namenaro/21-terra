@@ -1,4 +1,5 @@
 from elinker import *
+from runner import Runner
 from event import Act, Sen
 from utils import *
 
@@ -28,7 +29,7 @@ def test_runner():
     linker.add_sen(sen2)
     print("created test suids..")
     abspoint = get_point_handly(runner.sensor.pic)
-    contexts = runner.run_suid(sen2.s_uid, abspoint)
+    contexts = runner.run_sen(sen2.s_uid, abspoint)
     print(contexts)
 
 if __name__ == "__main__":

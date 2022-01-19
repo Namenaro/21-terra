@@ -16,7 +16,7 @@ class Context:
         self.points.append(point)
 
     def get_by_index(self, index):
-        return self.point[index]
+        return self.points[index]
 
     def find_nearest_points_indexes(self, point):
         if len(self.points)==0:
