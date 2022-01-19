@@ -49,3 +49,19 @@ def merge_context_and_point(c1, point):
     c2 = deepcopy(c1)
     c2.add_point(point)
     return c2
+
+def mean_contexts(cs):
+    con = Context()
+    n=len(cs)
+    if n==0:
+        return Context()
+    for i in range(len(cs[0].points)):
+        x=0
+        y=0
+        for c in cs:
+            x+=c.points[i].x
+            y += c.points[i].y
+        x=int(x/n)
+        y= int(y / n)
+        con.add_point(Point(x,y))
+    return con

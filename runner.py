@@ -31,21 +31,31 @@ class Runner:
         # мы можем запусить вторую, делая ее центром СК одну
         # из точек конктекста, сгенерированного первой подпрограммой :
         result_contexts = []
-        for context1 in contexts1:
-            abspoints2 = sen.act.get_all_variants(context1)
-            for abspoint2 in abspoints2:
-                res2, contexts2 = self.run_sen(sen.suid2, abspoint2, sen.etalon2)
-                if res2 == 0: # из этой точки запуск второй подпрограммы не успешен
-                    continue
-                # один или несколько пуской второй подпрограммы были успешны
-                if sen.is_fixed:
-                    point=sen.act.get_center(context1)
-                    c = merge_context_and_point(context1, point)
-                    result_contexts.append(c)
-                else: #floating context point setting
+
+        if not sen.is_fixed: #floating context point setting
+            for context1 in contexts1:
+                abspoints2 = sen.act.get_all_variants(context1)
+                for abspoint2 in abspoints2:
+                    res2, contexts2 = self.run_sen(sen.suid2, abspoint2, sen.etalon2)
+                    if res2 == 0: # из этой точки запуск второй подпрограммы не успешен
+                        continue
                     for c2 in contexts2:
                         c = merge_2_contexts(context1, c2)
                         result_contexts.append(c)
+        else: #fixed context point setting
+            for context1 in contexts1:
+                abspoints2 = sen.act.get_all_variants(context1)
+                c2_from_this_p = []
+                for abspoint2 in abspoints2:
+                    res2, contexts2 = self.run_sen(sen.suid2, abspoint2, sen.etalon2)
+                    if len(contexts2)!=0:
+                        c2_from_this_p=c2_from_this_p+contexts2
+                if len(c2_from_this_p)>0:
+                    #cpoint=sen.act.get_center(context1)
+                    #c1new = merge_context_and_point(context1, cpoint)
+                    c2mean = mean_contexts(c2_from_this_p)
+                    cc = merge_2_contexts(context1, c2mean)
+                    result_contexts.append(cc)
         if len(result_contexts) == 0:
             res =0
         else:

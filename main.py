@@ -14,7 +14,7 @@ def test_runner():
                suid1=linker.basic_suid, etalon1=1,
                act=act1,
                suid2=linker.basic_suid, etalon2=1,
-               is_fixed=False
+               is_fixed=True
                )
     linker.add_sen(sen1)
 
@@ -23,14 +23,23 @@ def test_runner():
     sen2 = Sen(suid=linker.generate_uid(),
                suid1=sen1.s_uid, etalon1=1,
                act=act2,
-               suid2=linker.basic_suid, etalon2=1,
-               is_fixed=True
+               suid2=sen1.s_uid, etalon2=1,
+               is_fixed=False
                )
     linker.add_sen(sen2)
+    act3 = Act(dx=1, dy=-1, index_in_context=3)
+    act3.add_point(ddx=0, ddy=1)
+    sen3 = Sen(suid=linker.generate_uid(),
+               suid1=sen2.s_uid, etalon1=1,
+               act=act3,
+               suid2=sen1.s_uid, etalon2=1,
+               is_fixed=True
+               )
+    linker.add_sen(sen3)
     print("created test suids..")
     abspoint = get_point_handly(runner.sensor.pic)
-    r,c = runner.run_sen(linker.basic_suid, abspoint, 1)
-    r,c = runner.run_sen(sen2.s_uid, abspoint,1)
+
+    r,c = runner.run_sen(sen3.s_uid, abspoint,1)
     print(c)
     if r==1:
         plot_contexts(c, runner.sensor.pic)
