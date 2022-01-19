@@ -10,9 +10,12 @@ class ELinker:
         self.events = {}  # suid: sen, [links]
         self.basic_suid = self.generate_uid()
         self.events[self.basic_suid]=[None, []]
+        self.i=-1
 
     def generate_uid(self):
-        return uuid.uuid4()
+        #return uuid.uuid4()
+        self.i = self.i+1
+        return self.i
 
     def set_basic(self, s_uid):
         self.basic_suid = s_uid
@@ -81,15 +84,36 @@ class Runner:
 
 
 
-    def run(self, abspoint):
-        suid = self.linker.basic_suid
-        context = Context()
-        res = self.sensor.measure(abspoint)
-        if res == 1:
-            nexts = self.linker.get_links(suid)
-
-        returns suids_sucessfully_checked
 
 
-def range_suids_by_rareness(suids_list):
-    return ranged_suids_list
+
+def test_runner():
+    from event import *
+    linker = ELinker()
+    runner = Runner(linker)
+
+    act1=Act(dx=1,dt=1,index_in_context=0)
+    act1.add_point(ddx=0,ddy=1)
+    sen1 = Sen(suid=linker.generate_uid(),
+               suid1=linker.basic_suid, etalon1=1,
+               act=act1,
+               suid2=linker.basic_suid, etalon2=1,
+               is_fixed=True
+               )
+    linker.add_sen(sen1)
+
+    act2 = Act(dx=1, dt=1, index_in_context=1)
+    act2.add_point(ddx=0, ddy=1)
+    sen2 = Sen(suid=linker.generate_uid(),
+               suid1=sen1.s_uid, etalon1=1,
+               act=act2,
+               suid2=linker.basic_suid, etalon2=1,
+               is_fixed=True
+               )
+    linker.add_sen(sen2)
+    abspoint = get_point_handly(runner.sensor)
+    contexts = runner.run_suid(sen2.s_uid, abspoint)
+    print(contexts)
+
+
+

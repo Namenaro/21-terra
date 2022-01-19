@@ -12,6 +12,10 @@ class Act:
         self.ddys = [0]
         self.index_in_context = index_in_context
 
+    def add_point(self, ddx,ddy):
+        self.ddxs.append(ddx)
+        self.ddys.append(ddy)
+
     def get_all_variants(self, context):
         abspoint = context.get_by_index(self.index_in_context)
         cx = abspoint.x + self.dx
@@ -25,7 +29,7 @@ class Act:
 
 
 class Sen:
-    def __init__(self, suid, suid1, etalon1, act, suid2, etalon2):  # начиннается с сенсора, запускается из abspoint
+    def __init__(self, suid, suid1, etalon1, act, suid2, etalon2, is_fixed):  # начиннается с сенсора, запускается из abspoint
         self.s_uid = suid
         self.suid1 = suid1
         self.act = act
@@ -35,7 +39,7 @@ class Sen:
         self.etalon1 = etalon1
         self.etalon2 = etalon2
         self.preds = []
-        self.is_fixed = True
+        self.is_fixed = is_fixed
 
 
 class Pred:
@@ -45,7 +49,3 @@ class Pred:
         self.corr_p1 = corr_p1
 
 
-some_act = Act(shift=(2, 3), du=[[0, 0], [0, 1]], index_in_context=0)
-sen2 = Sen(suid1=basic_sen.s_uid, act=some_act, next_suid=basic_sen.s_uid)
-sen3 = Sen(suid1=sen2.s_uid, act=some_act, next_suid=basic_sen.s_uid)
-sen4 = Sen(suid1=sen2.s_uid, act=some_act, next_suid=sen3.s_uid)
