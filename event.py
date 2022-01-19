@@ -34,7 +34,7 @@ class Sen:
         self.suid1 = suid1
         self.act = act
 
-        self.next_suid = suid2
+        self.suid2 = suid2
 
         self.etalon1 = etalon1
         self.etalon2 = etalon2
