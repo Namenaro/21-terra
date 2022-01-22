@@ -255,3 +255,8 @@ def get_random_pic_of_type(type=None):
     else:
         pics = get_numbers_of_type(type)
     return choice(pics)
+
+def get_random_point():
+    x= random.randint(0, 27)
+    y = random.randint(0, 27)
+    return Point(x,y)

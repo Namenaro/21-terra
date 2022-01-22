@@ -77,5 +77,26 @@ class Runner:
             return 1, []
         return 0, []
 
+    def run_half2_of_sen(self, sen, abspoint):
+        abspoints = sen.act.get_by_abspoint(abspoint)
+        cs = []
+        for point in abspoints:
+            res, contexts = self.run_sen(sen.suid2, point, sen.etalon2 )
+            if len(contexts)!=0:
+                cs = cs + contexts
+        if len(cs)!=0:
+            if  sen.is_fixed:
+                context = mean_contexts(cs)
+                return 1, [context]
+            else:
+                return 1, contexts
+        return 0, []
+
+
+
+
+
+
+
 
 

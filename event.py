@@ -16,14 +16,7 @@ class Act:
 
     def get_all_variants(self, context):
         abspoint = context.get_by_index(self.index_in_context)
-        cx = abspoint.x + self.dx
-        cy = abspoint.y + self.dy
-        several_abspoints = []
-        for i in range(len(self.ddxs)):
-            x=cx+ self.ddxs[i]
-            y=cy + self.ddys[i]
-            several_abspoints.append(Point(x,y))
-        return several_abspoints
+        return self.get_by_abspoint(abspoint)
 
     def get_center(self, context):
         abspoint = context.get_by_index(self.index_in_context)
@@ -31,19 +24,29 @@ class Act:
         cy = abspoint.y + self.dy
         return Point(cx, cy)
 
+    def get_by_abspoint(self, abspoint):
+        cx = abspoint.x + self.dx
+        cy = abspoint.y + self.dy
+        several_abspoints = []
+        for i in range(len(self.ddxs)):
+            x = cx + self.ddxs[i]
+            y = cy + self.ddys[i]
+            several_abspoints.append(Point(x, y))
+        return several_abspoints
+
 
 class Sen:
     def __init__(self, suid, suid1, etalon1, act, suid2, etalon2, is_fixed):  # начиннается с сенсора, запускается из abspoint
         self.s_uid = suid
         self.suid1 = suid1
-        self.act = act
-
-        self.suid2 = suid2
-
         self.etalon1 = etalon1
+
+        self.act = act
+        self.suid2 = suid2
         self.etalon2 = etalon2
-        self.preds = []
         self.is_fixed = is_fixed
+
+
 
 
 

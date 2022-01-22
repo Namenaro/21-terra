@@ -1,16 +1,18 @@
 from event import *
-
+from sampler import *
 import numpy as np
 import scipy.stats.distributions as dist
 from statsmodels.stats.proportion import proportions_ztest
 
 class Evaluator:
-    def __init__(self, sen, t_suid, t_etalon, t_act, t_index):
+    def __init__(self, runner, sen, t_suid, t_act1, t_act2, t_act12):
+        self.runner = runner
         self.sen = sen
         self.t_suid = t_suid
-        self.t_etalon = t_etalon
-        self.t_act = t_act
-        self.t_index = t_index
+
+        self.t_act1 = t_act1
+        self.t_act2 = t_act2
+        self.t_act12 = t_act12
 
         self.sample_by_suid1 = []
         self.sample_by_suid2 = []
@@ -20,14 +22,14 @@ class Evaluator:
         self.n_max_1=100
         self.n_max_2=100
 
-    def get_sample_by_suid1(self,runner, nattempts):
+    def get_sample_by_suid1(self, nattempts):
+        return conditional_sample(self.runner, self.sen.suid1, self.t_suid, self.t_act1, nattempts)
+
+    def get_sample_by_suid2act(self, nattempts):
         pass
 
-    def get_sample_by_suid2act(self, runner, nattempts):
-        pass
-
-    def get_sample_by_suids12(self, runner, nattempts):
-        pass
+    def get_sample_by_suids12(self,  nattempts):
+        return conditional_sample(self.runner, self.sen.suid, self.t_suid, self.t_act12, nattempts)
 
     def get_sample_s2_c_s1(self):
         pass
