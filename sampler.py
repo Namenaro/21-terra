@@ -34,3 +34,28 @@ def conditional_sample_2half_sen(runner, suid, t_suid, t_act, nattempts):
             res, _ = runner.run_sen(t_suid, abspoint2)
             sample.append(res)
     return sample
+
+def measure_p_of_c2act_by_c1(runner, suid, sample_size):
+    sen = runner.linker.get_sen(suid)
+    sample = []
+    while True:
+        if len(sample) == sample_size:
+            break
+        runner.reset3()  # случайну картинку троцку
+        abspoint = get_random_point()
+        res, _ = runner.run_sen(sen.suid1, abspoint, sen.etalon1)
+        if res == 0:
+            continue
+        res2, _ = runner.run_sen(suid, abspoint)
+        sample.append(res2)
+    return sum(sample)/len(sample)
+
+def measure_p_of_suid(runner, suid, nattempts):
+    sample = []
+    for i in range(nattempts):
+        runner.reset3()  # случайну картинку троцку
+        abspoint = get_random_point()
+        res, _ = runner.run_sen(suid, abspoint)
+        sample.append(res)
+    return sum(sample) / len(sample)
+

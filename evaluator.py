@@ -31,8 +31,8 @@ class Evaluator:
     def get_sample_by_suids12(self,  nattempts):
         return conditional_sample(self.runner, self.sen.suid, self.t_suid, self.t_act12, nattempts)
 
-    def get_sample_s2_c_s1(self):
-        pass
+    def get_sample_s2_c_s1(self, sample_size):
+        return measure_p_of_c2act_by_c1(self.runner, self.sen.suid, sample_size)
 
     def test_2_samples(self, sample1, sample2):
         n1 = sum(sample1)  # кол-во единиц в первой серии
