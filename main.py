@@ -4,7 +4,6 @@ from event import Act, Sen
 from utils import *
 
 def test_runner():
-
     linker = ELinker()
     runner = Runner(linker)
 

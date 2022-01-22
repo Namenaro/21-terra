@@ -248,3 +248,10 @@ def plot_contexts(cs, pic):
             i+=1
     return fig
 
+def get_random_pic_of_type(type=None):
+    if type == None:
+        mnist_train = get_train_mnist()
+        pics = mnist_train.train_data.numpy()
+    else:
+        pics = get_numbers_of_type(type)
+    return choice(pics)

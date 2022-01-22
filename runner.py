@@ -8,6 +8,17 @@ class Runner:
         self.linker = linker
         self.sensor = SimpleSensor()
 
+    def reset3(self):
+        pic = get_random_pic_of_type(3)
+        self.sensor.reset_picture(pic)
+
+    def reset(self):
+        self.sensor.reset_picture(etalons_of3()[0])
+
+    def reset_random(self):
+        pic = get_random_pic_of_type()
+        self.sensor.reset_picture(pic)
+
     def _run_bsen(self, abspoint, etalon):
         res = self.sensor.measure(abspoint)
         if res == etalon:
@@ -59,9 +70,12 @@ class Runner:
         if len(result_contexts) == 0:
             res =0
         else:
-            res =1
+            res = 1
         if res == 1 and etalon==1:
             return 1, result_contexts
         if res == 0 and etalon==0:
             return 1, []
         return 0, []
+
+
+

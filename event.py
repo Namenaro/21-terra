@@ -1,8 +1,6 @@
 from elinker import *
 from event import *
 from utils import *
-from predict import *
-
 
 class Act:
     def __init__(self, dx, dy, index_in_context):
@@ -48,10 +46,5 @@ class Sen:
         self.is_fixed = is_fixed
 
 
-class Pred:
-    def __init__(self, act, s_uid, corr_p1):
-        self.act = act
-        self.s_uid = s_uid
-        self.corr_p1 = corr_p1
 
 
