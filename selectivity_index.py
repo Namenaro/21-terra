@@ -1,4 +1,3 @@
 
-
-def get_selevtivity_for_suid(suid):
+def get_selevtivity_for_suid(runner, suid):
     pass
