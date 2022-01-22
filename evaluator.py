@@ -2,6 +2,7 @@ from event import *
 
 import numpy as np
 import scipy.stats.distributions as dist
+from statsmodels.stats.proportion import proportions_ztest
 
 class Evaluator:
     def __init__(self, sen, t_suid, t_etalon, t_act, t_index):
@@ -32,13 +33,23 @@ class Evaluator:
         pass
 
     def test_2_samples(self, sample1, sample2):
-        return p_val
+        n1 = sum(sample1)  # кол-во единиц в первой серии
+        N1 = len(sample1)  # кол-во бинарных испытаний в первой серии
+        n2 =  sum(sample2)  # кол-во единиц во 2й серии
+        N2 = len(sample2) # кол-во бинарных испытаний во 2й серии
+        counts = np.array([n1, n2])
+        nobs = np.array([N1, N2])
+        stat, pval = proportions_ztest(counts, nobs)
+        return pval
 
     def check_diff(self, sample1, sample2):
-        return diff
+        p11 = self.sample_to_p(sample1)
+        p21 = self.sample_to_p(sample2)
+        return abs(p11-p21)
 
     def sample_to_p(self, sample):
-        pass
+        p_of_1 = sum(sample)/len(sample)
+        return p_of_1
 
     def update_samples(self, runner, f1, f2, f12):
         nattempts = 400
