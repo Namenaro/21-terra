@@ -100,3 +100,5 @@ class Evaluator:
                diff1 = self.check_diff(self.sample_by_suid1, self.sample_by_suids12)
                diff2 = self.check_diff(self.sample_by_suid2, self.sample_by_suids12)
                return diff1 + diff2
+
+
