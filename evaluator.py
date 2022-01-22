@@ -26,7 +26,7 @@ class Evaluator:
         return conditional_sample(self.runner, self.sen.suid1, self.t_suid, self.t_act1, nattempts)
 
     def get_sample_by_suid2act(self, nattempts):
-        pass
+        return conditional_sample_2half_sen(self.runner, self.sen.suid,self.t_suid, self.t_act2,nattempts)
 
     def get_sample_by_suids12(self,  nattempts):
         return conditional_sample(self.runner, self.sen.suid, self.t_suid, self.t_act12, nattempts)

@@ -77,7 +77,8 @@ class Runner:
             return 1, []
         return 0, []
 
-    def run_half2_of_sen(self, sen, abspoint):
+    def run_half2_of_sen(self, suid, abspoint):
+        sen = self.linker.get_sen(suid)
         abspoints = sen.act.get_by_abspoint(abspoint)
         cs = []
         for point in abspoints:
