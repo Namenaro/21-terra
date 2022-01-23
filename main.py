@@ -70,6 +70,8 @@ def test_sampler():
     p = measure_p_of_suid(runner, sen2.s_uid, nattempts=1000)
     print(p)
 
+def test_predsfinder():
+    pass
 
 if __name__ == "__main__":
     test_sampler()

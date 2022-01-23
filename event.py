@@ -34,6 +34,9 @@ class Act:
             several_abspoints.append(Point(x, y))
         return several_abspoints
 
+    def copy_to_other_context(self, context, abspoint):
+        return adapted_act
+
 
 class Sen:
     def __init__(self, suid, suid1, etalon1, act, suid2, etalon2, is_fixed):  # начиннается с сенсора, запускается из abspoint
