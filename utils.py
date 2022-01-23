@@ -167,6 +167,11 @@ class Point:
         self.x=x
         self.y=y
 
+    def __eq__(self, other):
+        if other.x == self.x and other.y==self.y:
+            return True
+        return False
+
 
 class SimpleSensor:
     def __init__(self):

@@ -2,10 +2,12 @@ from elinker import ELinker
 import uuid
 from context import *
 from utils import *
+from registrator import *
 
 class Runner:
-    def __init__(self, linker):
+    def __init__(self, linker, registrator):
         self.linker = linker
+        self.reg = registrator
         self.sensor = SimpleSensor()
 
     def reset3(self):
@@ -30,7 +32,9 @@ class Runner:
 
     def run_sen(self, suid, abspoint, etalon):
         if self.linker.is_basic(suid):
-            res, contexts=self._run_bsen( abspoint, etalon)
+            res, contexts=self._run_bsen(abspoint, etalon)
+            if res==1:
+                self.reg.register(suid, abspoint)
             return res, contexts
 
         sen = self.linker.get_sen(suid)
@@ -41,6 +45,7 @@ class Runner:
         # если выполнение первой подпрограммы было успешно, то
         # мы можем запусить вторую, делая ее центром СК одну
         # из точек конктекста, сгенерированного первой подпрограммой :
+        self.reg.register(sen.suid1, abspoint)
         result_contexts = []
 
         if not sen.is_fixed: #floating context point setting
@@ -50,6 +55,7 @@ class Runner:
                     res2, contexts2 = self.run_sen(sen.suid2, abspoint2, sen.etalon2)
                     if res2 == 0: # из этой точки запуск второй подпрограммы не успешен
                         continue
+                    self.reg.register(sen.suid2, abspoint2)
                     for c2 in contexts2:
                         c = merge_2_contexts(context1, c2)
                         result_contexts.append(c)
@@ -61,6 +67,7 @@ class Runner:
                     res2, contexts2 = self.run_sen(sen.suid2, abspoint2, sen.etalon2)
                     if len(contexts2)!=0:
                         c2_from_this_p=c2_from_this_p+contexts2
+                        self.reg.register(sen.suid2, abspoint2)
                 if len(c2_from_this_p)>0:
                     #cpoint=sen.act.get_center(context1)
                     #c1new = merge_context_and_point(context1, cpoint)
