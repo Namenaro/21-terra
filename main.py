@@ -2,6 +2,7 @@ from elinker import *
 from runner import Runner
 from event import Act, Sen
 from utils import *
+from evaluator import *
 
 def test_runner():
     linker = ELinker()
@@ -44,8 +45,34 @@ def test_runner():
         plot_contexts(c, runner.sensor.pic)
         plt.show()
 
+def test_sampler():
+    linker = ELinker()
+    runner = Runner(linker)
+    act1 = Act(dx=1, dy=-1, index_in_context=0)
+    act1.add_point(ddx=0, ddy=1)
+    sen1 = Sen(suid=linker.generate_uid(),
+               suid1=linker.basic_suid, etalon1=1,
+               act=act1,
+               suid2=linker.basic_suid, etalon2=1,
+               is_fixed=True
+               )
+    linker.add_sen(sen1)
+
+    act2 = Act(dx=1, dy=-1, index_in_context=1)
+    act2.add_point(ddx=0, ddy=1)
+    sen2 = Sen(suid=linker.generate_uid(),
+               suid1=sen1.s_uid, etalon1=1,
+               act=act2,
+               suid2=sen1.s_uid, etalon2=1,
+               is_fixed=False
+               )
+    linker.add_sen(sen2)
+    p = measure_p_of_suid(runner, sen2.s_uid, nattempts=1000)
+    print(p)
+
+
 if __name__ == "__main__":
-    test_runner()
+    test_sampler()
 
 
 

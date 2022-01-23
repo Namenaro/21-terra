@@ -71,7 +71,7 @@ class Runner:
             res =0
         else:
             res = 1
-        if res == 1 and etalon==1:
+        if res == 1 and etalon !=0:
             return 1, result_contexts
         if res == 0 and etalon==0:
             return 1, []
