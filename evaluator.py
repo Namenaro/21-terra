@@ -22,14 +22,14 @@ class Evaluator:
         self.n_max_1=100
         self.n_max_2=100
 
-    def get_sample_by_suid1(self, nattempts):
-        return conditional_sample(self.runner, self.sen.suid1, self.t_suid, self.t_act1, nattempts)
+    def get_sample_by_suid1(self, n):
+        return conditional_sample(self.runner, self.sen.suid1, self.t_suid, self.t_act1, n)
 
     def get_sample_by_suid2(self, nattempts):
         return conditional_sample_2half_sen(self.runner, self.sen.suid,self.t_suid, self.t_act2,nattempts)
 
-    def get_sample_by_suid12(self,  nattempts):
-        return conditional_sample(self.runner, self.sen.suid, self.t_suid, self.t_act12, nattempts)
+    def get_sample_by_suid12(self,  n):
+        return conditional_sample(self.runner, self.sen.suid, self.t_suid, self.t_act12, n)
 
     def get_sample_s2_c_s1(self, sample_size):
         return measure_p_of_c2act_by_c1(self.runner, self.sen.suid, sample_size)
@@ -54,17 +54,17 @@ class Evaluator:
         return p_of_1
 
     def update_samples(self, runner, f1, f2, f12):
-        nattempts = 400
+        n = 5
         if f1:
-            dsample_by_suid1 = self.get_sample_by_suid1(runner, nattempts)
+            dsample_by_suid1 = self.get_sample_by_suid1(runner, n)
             if len(dsample_by_suid1) != 0:
                 self.sample_by_suid1 = self.sample_by_suid1 + dsample_by_suid1
         if f2:
-            dsample_by_suid2 = self.get_sample_by_suid2(runner, nattempts)
+            dsample_by_suid2 = self.get_sample_by_suid2(runner, n)
             if len(dsample_by_suid2) != 0:
                 self.sample_by_suid2 = self.sample_by_suid2 + dsample_by_suid2
         if f12:
-            dsample_by_suid12 = self.get_sample_by_suid12(runner, nattempts)
+            dsample_by_suid12 = self.get_sample_by_suid12(runner, n)
             if len(dsample_by_suid12 != 0):
                 self.sample_by_suid12 = self.sample_by_suid12 + dsample_by_suid12
 

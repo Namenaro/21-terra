@@ -4,9 +4,12 @@ from utils import *
 from context import *
 
 
-def conditional_sample(runner, suid, t_suid, t_act, nattempts):
+def conditional_sample(runner, suid, t_suid, t_act, n):
+    max_attempts = 500000
     sample = []
-    for i in range(nattempts):
+    for i in range(max_attempts):
+        if len(sample)==n:
+            break
         runner.reset3()  # случайну картинку троцку
         abspoint = get_random_point()
         res, contexts = runner.run_sen(suid, abspoint, None)
@@ -20,9 +23,12 @@ def conditional_sample(runner, suid, t_suid, t_act, nattempts):
     return sample
 
 
-def conditional_sample_2half_sen(runner, suid, t_suid, t_act, nattempts):
+def conditional_sample_2half_sen(runner, suid, t_suid, t_act, n):
     sample = []
-    for i in range(nattempts):
+    max_attempts = 500000
+    for i in range(max_attempts):
+        if len(sample)==n:
+            break
         runner.reset3()  # случайну картинку троцку
         abspoint = get_random_point()
         res, contexts = runner.run_half2_of_sen(suid, abspoint, None)
