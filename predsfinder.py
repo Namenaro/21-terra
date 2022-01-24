@@ -14,21 +14,23 @@ class PredsFinder:
         self.runner=runner
         self.suid = suid
         self.preds = []  #[pred_entry1,...]
-        self.num_attempts_allowed=1
+        self.num_attempts_allowed=3
 
     def run(self):
         sign = 0
-        pred_entries = []
+
         for i in range(self.num_attempts_allowed):
             print("finding "+ str(i)+ "'th pred for suid "+ str(self.suid))
             pred_entry, significance = self.find_next_pred()
-            print(significance)
-            sign+=significance
-            if pred_entry is not None:
-                pred_entries.append(pred_entry)
+            print("found pred with significance = " +str(significance))
+            sign +=significance
+            if significance>0:
+                self.preds.append(pred_entry)
 
-        p_of_s2 = measure_p_of_c2act_by_c1(self.runner, self.sen.s_uid, sample_size=20)
-        return sign, p_of_s2, pred_entries
+        p_of_s2 = measure_p_of_c2act_by_c1(self.runner, self.suid, sample_size=20)
+        print ("overall sinidicance of + act_c2 is "+ str(sign))
+        print("overall p(act_c2=et)  is " + str(p_of_s2))
+        return sign, p_of_s2, self.preds
 
 
     def create_act_for_pred(self, t_suid, t_abspoint, context):
@@ -98,7 +100,7 @@ class PredsFinder:
                 print("created acts:" + str(len(someacts)))
                 signs = []
                 for act12 in someacts:
-                    print("eval act "+ str(act12.dx))
+                    print("eval act: ")
                     c1 = Context()
                     c1.points = context.points[:len_of_c1]
                     t_act1 = act12.copy_to_other_context(context, c1)
@@ -109,7 +111,7 @@ class PredsFinder:
 
                     ev = Evaluator(self.runner, sen, selected_t_suid, t_act1, t_act2, act12)
                     sign = ev.eval_significange()
-                    print("significange="+ str(sign))
+                    print("significange for act ="+ str(sign))
                     signs.append(sign)
                 if max(signs) > 0:
                     index = signs.index(max(signs))

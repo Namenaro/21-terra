@@ -2,7 +2,7 @@ from runner import *
 from event import *
 from utils import *
 from context import *
-max_attempts = 50000000
+max_attempts = 5000000
 
 def conditional_sample(runner, suid, suid_etalon, t_suid, t_act, n):
     sample = []

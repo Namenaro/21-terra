@@ -90,7 +90,7 @@ def test_predsfinder():
     sign, p_of_s2, pred_entries = preds_finder.run()
     print(sign)
     print(p_of_s2)
-    visualise_preds(sen1.suid, pred_entries, runner)
+    visualise_preds(sen1.s_uid, pred_entries, runner)
 
 if __name__ == "__main__":
     test_predsfinder()
