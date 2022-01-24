@@ -3,6 +3,7 @@ from runner import Runner
 from event import Act, Sen
 from utils import *
 from evaluator import *
+from predsfinder import *
 
 def test_runner():
     linker = ELinker()
@@ -71,11 +72,28 @@ def test_sampler():
     print(p)
 
 def test_predsfinder():
-    pass
+    linker = ELinker()
+    runner = Runner(linker)
+
+    act1 = Act(dx=4, dy=-4, index_in_context=0)
+    act1.add_point(ddx=0, ddy=1)
+    act1.add_point(ddx=0, ddy=-1)
+    sen1 = Sen(suid=linker.generate_uid(),
+               suid1=linker.basic_suid, etalon1=1,
+               act=act1,
+               suid2=linker.basic_suid, etalon2=1,
+               is_fixed=True
+               )
+    linker.add_sen(sen1)
+
+    preds_finder = PredsFinder(sen1, runner)
+    sign, p_of_s2, pred_entries = preds_finder.run()
+    print(sign)
+    print(p_of_s2)
+    visualise_preds(sen1.suid, pred_entries, runner)
 
 if __name__ == "__main__":
-    s=[1,2,3,4,5,5]
-    print(s.index(max(s)))
+    test_predsfinder()
 
 
 

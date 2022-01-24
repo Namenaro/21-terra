@@ -12,6 +12,9 @@ class Registrator:
         else:
             self.map[abspoint].append(suid)
 
+    def clean(self):
+        self.map = {}
+
     def is_trivial(self, suid, abspoint):
         if abspoint not in self.map:
             return False

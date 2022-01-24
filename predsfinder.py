@@ -30,14 +30,14 @@ class PredsFinder:
         return sign, p_of_s2, pred_entries
 
 
-    def create_act_for_pred(self, t_suid, t_abspoint, context, registrator):
+    def create_act_for_pred(self, t_suid, t_abspoint, context):
         acts = []
         radius = 0
         while True:
             X, Y = get_coords_less_or_eq_raduis(t_abspoint.x, t_abspoint.y, radius)
             can_expand = True
             for i in range(len(X)):
-                if registrator.is_trivial(t_suid, Point(X[i], Y[i])):
+                if self.runner.registrator.is_trivial(t_suid, Point(X[i], Y[i])):
                     can_expand = False
                     break
             if can_expand == False:
@@ -57,8 +57,9 @@ class PredsFinder:
         return acts
 
 
-    def find_next_pred(self, registrator):
-        registrator.is_on = False
+    def find_next_pred(self):
+        self.runner.registrator.clean()
+        self.runner.registrator.is_on = False
         while True:
             self.runner.reset3()
             abspoint = get_random_point()
@@ -72,19 +73,19 @@ class PredsFinder:
             len_of_c1 = len(c1_contexts[0])
 
             # теперь внесем в регистратор суид1, суид2 и предсказания
-            registrator.is_on = True
+            self.runner.registrator.is_on = True
             _, contexts = self.runner.run_sen(self.suid, abspoint, None)
             context = random.choice(contexts)
-            self.run_predictions()
-            registrator.is_on = False
+            self.run_predictions(context)
+            self.runner.registrator.is_on = False
 
             # можно искать редкие сущности в округе:
             while True:
                 t_abspoint = get_random_point()
                 t_suids = self.runner.get_all_suids_in_point(t_abspoint)
-                t_suids = registrator.filter_trivials_from_list(t_suids)
+                t_suids = self.runner.registrator.filter_trivials_from_list(t_suids)
                 selected_t_suid = random.choice(t_suids)
-                someacts = self.create_act_for_pred(self, selected_t_suid, t_abspoint, context, registrator)
+                someacts = self.create_act_for_pred(self, selected_t_suid, t_abspoint, context)
                 signs = []
                 for act12 in someacts:
                     c1 = Context()
@@ -105,8 +106,12 @@ class PredsFinder:
                 return None, 0
 
 
-    def run_predictions(self):
-        pass
+    def run_predictions(self, context):
+        for pred_entry in self.preds:
+            abspoints = pred_entry.act.get_all_variants(context)
+            for abspoint in abspoints:
+                _, _ = self.runner.run_sen(pred_entry.suid, abspoint, None)
+
 
 def visualise_preds(suid, preds, runner):
     contexts=None

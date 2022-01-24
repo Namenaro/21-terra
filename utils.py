@@ -228,6 +228,8 @@ class CoordSelector:
         plt.imshow(self.image, cmap='gray_r')
         plt.show()
         if self.keys is None:
+            print("xs=" + str(self.resultx))
+            print("ys=" + str(self.resulty))
             return self.resultx, self.resulty
         return self.resultx, self.resulty, self.XY_info_dicts
 
@@ -265,3 +267,7 @@ def get_random_point():
     x= random.randint(0, 27)
     y = random.randint(0, 27)
     return Point(x,y)
+
+if __name__ == "__main__":
+    pic = etalons_of3()[0]
+    select_on_pic(pic, keys=None)

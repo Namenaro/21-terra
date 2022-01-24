@@ -5,9 +5,9 @@ from utils import *
 from registrator import *
 
 class Runner:
-    def __init__(self, linker, registrator):
+    def __init__(self, linker):
         self.linker = linker
-        self.reg = registrator
+        self.registator = Registrator()
         self.sensor = SimpleSensor()
 
     def reset3(self):
