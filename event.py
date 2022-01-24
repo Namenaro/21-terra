@@ -34,7 +34,15 @@ class Act:
             several_abspoints.append(Point(x, y))
         return several_abspoints
 
-    def copy_to_other_context(self, context, abspoint):
+    def copy_to_other_context(self, context, new_context):
+        abskeypoint = self.get_center(context)
+        index_in_new = new_context.find_nearest_points_indexes(abskeypoint)[0]
+        nearest = new_context.points[index_in_new]
+        dx = abskeypoint.x - nearest.x
+        dy = abskeypoint.y - nearest.y
+        adapted_act = Act(dx,dy,index_in_new)
+        adapted_act.ddxs = deepcopy(self.ddxs)
+        adapted_act.ddys = deepcopy(self.ddys)
         return adapted_act
 
 

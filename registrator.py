@@ -19,6 +19,9 @@ class Registrator:
             return False
         return True
 
+    def filter_trivials_from_list(self,suids):
+        return suids
+
 
 
 

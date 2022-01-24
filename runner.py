@@ -100,6 +100,9 @@ class Runner:
                 return 1, contexts
         return 0, []
 
+    def get_all_suids_in_point(self, abspoint):
+        pass
+
 
 
 

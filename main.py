@@ -74,7 +74,9 @@ def test_predsfinder():
     pass
 
 if __name__ == "__main__":
-    test_sampler()
+    s=[1,2,3,4,5,5]
+    print(s.index(max(s)))
+
 
 
 
