@@ -31,9 +31,29 @@ class PredsFinder:
 
 
     def create_act_for_pred(self, t_suid, t_abspoint, context, registrator):
-        # эвристика1 - чем больше дист, тем больше радиус неопределенности
-        # эври 2: неопредленность это компакт
-        # эври 3: чем больше редкое событие, тем больше радиус
+        acts = []
+        radius = 0
+        while True:
+            X, Y = get_coords_less_or_eq_raduis(t_abspoint.x, t_abspoint.y, radius)
+            can_expand = True
+            for i in range(len(X)):
+                if registrator.is_trivial(t_suid, Point(X[i], Y[i])):
+                    can_expand = False
+                    break
+            if can_expand == False:
+                break
+            # можно включить эту неопределенность при этом радиусе как нетривиальную:
+            dxs, dys = get_coords_less_or_eq_raduis(0, 0, radius)
+            index_in_context = context.find_nearest_points_indexes(t_abspoint)[0]
+            nearest_point = context.points[index_in_context]
+            dx=t_abspoint.x - nearest_point.x
+            dy=t_abspoint.y - nearest_point.y
+
+            act = Act(dx,dy,index_in_context)
+            act.ddxs=dxs
+            act.ddys = dys
+            acts.append(act)
+
         return acts
 
 
