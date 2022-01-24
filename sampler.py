@@ -2,17 +2,17 @@ from runner import *
 from event import *
 from utils import *
 from context import *
+max_attempts = 50000000
 
-
-def conditional_sample(runner, suid, t_suid, t_act, n):
-    max_attempts = 500000
+def conditional_sample(runner, suid, suid_etalon, t_suid, t_act, n):
     sample = []
     for i in range(max_attempts):
         if len(sample)==n:
             break
         runner.reset3()  # случайну картинку троцку
         abspoint = get_random_point()
-        res, contexts = runner.run_sen(suid, abspoint, None)
+        res, contexts = runner.run_sen(suid, abspoint, suid_etalon)
+
         if res == 0:
             continue
 
@@ -25,13 +25,13 @@ def conditional_sample(runner, suid, t_suid, t_act, n):
 
 def conditional_sample_2half_sen(runner, suid, t_suid, t_act, n):
     sample = []
-    max_attempts = 500000
+
     for i in range(max_attempts):
         if len(sample)==n:
             break
         runner.reset3()  # случайну картинку троцку
         abspoint = get_random_point()
-        res, contexts = runner.run_half2_of_sen(suid, abspoint, None)
+        res, contexts = runner.run_half2_of_sen(suid, abspoint)
         if res == 0:
             continue
 

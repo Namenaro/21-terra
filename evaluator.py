@@ -23,22 +23,23 @@ class Evaluator:
         self.n_max_2=100
 
     def get_sample_by_suid1(self, n):
-        return conditional_sample(self.runner, self.sen.suid1, self.t_suid, self.t_act1, n)
+        return conditional_sample(self.runner, self.sen.suid1,self.sen.etalon1, self.t_suid, self.t_act1, n)
 
-    def get_sample_by_suid2(self, nattempts):
-        return conditional_sample_2half_sen(self.runner, self.sen.suid,self.t_suid, self.t_act2,nattempts)
+    def get_sample_by_suid2(self, n):
+        return conditional_sample_2half_sen(self.runner, self.sen.s_uid, self.t_suid, self.t_act2, n)
 
     def get_sample_by_suid12(self,  n):
-        return conditional_sample(self.runner, self.sen.suid, self.t_suid, self.t_act12, n)
+        return conditional_sample(self.runner, self.sen.s_uid, None, self.t_suid, self.t_act12, n)
 
     def get_sample_s2_c_s1(self, sample_size):
-        return measure_p_of_c2act_by_c1(self.runner, self.sen.suid, sample_size)
+        return measure_p_of_c2act_by_c1(self.runner, self.sen.s_uid, sample_size)
 
     def test_2_samples(self, sample1, sample2):
         n1 = sum(sample1)  # кол-во единиц в первой серии
         N1 = len(sample1)  # кол-во бинарных испытаний в первой серии
         n2 =  sum(sample2)  # кол-во единиц во 2й серии
         N2 = len(sample2) # кол-во бинарных испытаний во 2й серии
+        assert N2!=0 and N1 !=0, "sample is empty!"
         counts = np.array([n1, n2])
         nobs = np.array([N1, N2])
         stat, pval = proportions_ztest(counts, nobs)
@@ -53,19 +54,19 @@ class Evaluator:
         p_of_1 = sum(sample)/len(sample)
         return p_of_1
 
-    def update_samples(self, runner, f1, f2, f12):
+    def update_samples(self, f1, f2, f12):
         n = 5
-        if f1:
-            dsample_by_suid1 = self.get_sample_by_suid1(runner, n)
+        if not f1:
+            dsample_by_suid1 = self.get_sample_by_suid1(n)
             if len(dsample_by_suid1) != 0:
                 self.sample_by_suid1 = self.sample_by_suid1 + dsample_by_suid1
-        if f2:
-            dsample_by_suid2 = self.get_sample_by_suid2(runner, n)
+        if not f2:
+            dsample_by_suid2 = self.get_sample_by_suid2(n)
             if len(dsample_by_suid2) != 0:
                 self.sample_by_suid2 = self.sample_by_suid2 + dsample_by_suid2
-        if f12:
-            dsample_by_suid12 = self.get_sample_by_suid12(runner, n)
-            if len(dsample_by_suid12 != 0):
+        if not f12:
+            dsample_by_suid12 = self.get_sample_by_suid12(n)
+            if len(dsample_by_suid12) != 0:
                 self.sample_by_suid12 = self.sample_by_suid12 + dsample_by_suid12
 
 
@@ -83,15 +84,15 @@ class Evaluator:
 
 
 
-    def eval_significange(self, runner): # 0 - min, no significance
+    def eval_significange(self): # 0 - min, no significance
         p_thr = 0.0001
-
+        print("start eval of pred..")
         while True:
             f1,f2,f12 = self.check_stop_criteria()
             if f1 and f2 and f12:
                 return 0
 
-            self.update_samples(runner, f1, f2, f12)
+            self.update_samples(f1, f2, f12)
 
             p_1_vs_12 = self.test_2_samples(self.sample_by_suid1, self.sample_by_suid12)
             p_2_vs_12 = self.test_2_samples(self.sample_by_suid2, self.sample_by_suid12)

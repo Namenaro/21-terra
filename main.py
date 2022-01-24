@@ -76,8 +76,7 @@ def test_predsfinder():
     runner = Runner(linker)
 
     act1 = Act(dx=4, dy=-4, index_in_context=0)
-    act1.add_point(ddx=0, ddy=1)
-    act1.add_point(ddx=0, ddy=-1)
+    act1.set_raduis_of_uncert(1)
     sen1 = Sen(suid=linker.generate_uid(),
                suid1=linker.basic_suid, etalon1=1,
                act=act1,
@@ -85,7 +84,8 @@ def test_predsfinder():
                is_fixed=True
                )
     linker.add_sen(sen1)
-
+    #p = measure_p_of_suid(runner, sen1.s_uid, nattempts=1000)
+    #print("P="+ str(p))
     preds_finder = PredsFinder(sen1.s_uid, runner)
     sign, p_of_s2, pred_entries = preds_finder.run()
     print(sign)

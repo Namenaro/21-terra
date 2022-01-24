@@ -45,6 +45,11 @@ class Act:
         adapted_act.ddys = deepcopy(self.ddys)
         return adapted_act
 
+    def set_raduis_of_uncert(self, radius):
+        ddx,ddy = get_coords_less_or_eq_raduis(0,0,radius)
+        self.ddxs = ddx
+        self.ddys =ddy
+
 
 class Sen:
     def __init__(self, suid, suid1, etalon1, act, suid2, etalon2, is_fixed):  # начиннается с сенсора, запускается из abspoint

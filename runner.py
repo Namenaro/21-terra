@@ -23,6 +23,8 @@ class Runner:
 
     def _run_bsen(self, abspoint, etalon):
         res = self.sensor.measure(abspoint)
+        if etalon is None:
+            return res, []
         if res == etalon:
             c = Context()
             c.add_point(abspoint)

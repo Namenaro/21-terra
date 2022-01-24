@@ -4,9 +4,9 @@ from evaluator import *
 # для данного тестового сен найдем разные ентривиальные предсказания и замерим их суммарную силу
 
 class PredEntry:
-    def __init__(self):
-        self.suid
-        self.act
+    def __init__(self, suid, act):
+        self.suid=suid
+        self.act=act
         self.p=None
 
 class PredsFinder:
@@ -34,6 +34,7 @@ class PredsFinder:
     def create_act_for_pred(self, t_suid, t_abspoint, context):
         acts = []
         radius = 0
+        max_raduis = 4
         while True:
             print(radius)
             X, Y = get_coords_less_or_eq_raduis(t_abspoint.x, t_abspoint.y, radius)
@@ -56,6 +57,8 @@ class PredsFinder:
             act.ddys = dys
             acts.append(act)
             radius += 1
+            if radius == max_raduis:
+                break
         return acts
 
 
@@ -95,6 +98,7 @@ class PredsFinder:
                 print("created acts:" + str(len(someacts)))
                 signs = []
                 for act12 in someacts:
+                    print("eval act "+ str(act12.dx))
                     c1 = Context()
                     c1.points = context.points[:len_of_c1]
                     t_act1 = act12.copy_to_other_context(context, c1)
@@ -104,7 +108,8 @@ class PredsFinder:
                     t_act2 = act12.copy_to_other_context(context, c2)
 
                     ev = Evaluator(self.runner, sen, selected_t_suid, t_act1, t_act2, act12)
-                    sign = ev.eval_significange(self.runner)
+                    sign = ev.eval_significange()
+                    print("significange="+ str(sign))
                     signs.append(sign)
                 if max(signs) > 0:
                     index = signs.index(max(signs))
