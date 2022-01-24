@@ -7,18 +7,18 @@ class Registrator:
     def register(self, suid, abspoint):
         if not self.is_on:
             return
-        if abspoint not in self.map:
-            self.map[abspoint]=[suid]
+        if (abspoint.x, abspoint.y) not in self.map:
+            self.map[(abspoint.x, abspoint.y)]=[suid]
         else:
-            self.map[abspoint].append(suid)
+            self.map[(abspoint.x, abspoint.y)].append(suid)
 
     def clean(self):
         self.map = {}
 
     def is_trivial(self, suid, abspoint):
-        if abspoint not in self.map:
+        if (abspoint.x, abspoint.y) not in self.map:
             return False
-        if suid not in self.map[abspoint]:
+        if suid not in self.map[(abspoint.x, abspoint.y)]:
             return False
         return True
 

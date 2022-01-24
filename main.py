@@ -86,7 +86,7 @@ def test_predsfinder():
                )
     linker.add_sen(sen1)
 
-    preds_finder = PredsFinder(sen1, runner)
+    preds_finder = PredsFinder(sen1.s_uid, runner)
     sign, p_of_s2, pred_entries = preds_finder.run()
     print(sign)
     print(p_of_s2)

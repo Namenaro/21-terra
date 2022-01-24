@@ -10,9 +10,9 @@ class PredEntry:
         self.p=None
 
 class PredsFinder:
-    def __init__(self, sen, runner):
+    def __init__(self, suid, runner):
         self.runner=runner
-        self.sen = sen
+        self.suid = suid
         self.preds = []  #[pred_entry1,...]
         self.num_attempts_allowed=5
 
@@ -20,6 +20,7 @@ class PredsFinder:
         sign = 0
         pred_entries = []
         for i in range(self.num_attempts_allowed):
+            print("finding "+ str(i)+ "'th pred for suid "+ str(self.suid))
             pred_entry, significance = self.find_next_pred()
             print(significance)
             sign+=significance
@@ -66,11 +67,12 @@ class PredsFinder:
             res, contexts = self.runner.run_sen(self.suid, abspoint, None)
             if res == 0:
                 continue
+            print ("good situation: " + str(contexts))
             # нашли ситуацию, где надо искать событие для формирования предсказания
             # сначала узнаем длину первго контекста:
             sen = self.runner.linker.get_sen(self.suid)
-            _, c1_contexts = self.runner.run_sen(sen.suid1)
-            len_of_c1 = len(c1_contexts[0])
+            _, c1_contexts = self.runner.run_sen(sen.suid1, abspoint, sen.etalon1)
+            len_of_c1 = len(c1_contexts[0].points)
 
             # теперь внесем в регистратор суид1, суид2 и предсказания
             self.runner.registrator.is_on = True

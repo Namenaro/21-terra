@@ -7,7 +7,7 @@ from registrator import *
 class Runner:
     def __init__(self, linker):
         self.linker = linker
-        self.registator = Registrator()
+        self.registrator = Registrator()
         self.sensor = SimpleSensor()
 
     def reset3(self):
@@ -34,7 +34,7 @@ class Runner:
         if self.linker.is_basic(suid):
             res, contexts=self._run_bsen(abspoint, etalon)
             if res==1:
-                self.reg.register(suid, abspoint)
+                self.registrator.register(suid, abspoint)
             return res, contexts
 
         sen = self.linker.get_sen(suid)
@@ -45,7 +45,7 @@ class Runner:
         # если выполнение первой подпрограммы было успешно, то
         # мы можем запусить вторую, делая ее центром СК одну
         # из точек конктекста, сгенерированного первой подпрограммой :
-        self.reg.register(sen.suid1, abspoint)
+        self.registrator.register(sen.suid1, abspoint)
         result_contexts = []
 
         if not sen.is_fixed: #floating context point setting
@@ -67,7 +67,7 @@ class Runner:
                     res2, contexts2 = self.run_sen(sen.suid2, abspoint2, sen.etalon2)
                     if len(contexts2)!=0:
                         c2_from_this_p=c2_from_this_p+contexts2
-                        self.reg.register(sen.suid2, abspoint2)
+                        self.registrator.register(sen.suid2, abspoint2)
                 if len(c2_from_this_p)>0:
                     #cpoint=sen.act.get_center(context1)
                     #c1new = merge_context_and_point(context1, cpoint)
