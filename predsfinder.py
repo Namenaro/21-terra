@@ -100,7 +100,7 @@ class PredsFinder:
                     t_act1 = act12.copy_to_other_context(context, c1)
 
                     c2 = Context()
-                    c2.points = context.points[len_of_c1+1:]
+                    c2.points = context.points[len_of_c1:]
                     t_act2 = act12.copy_to_other_context(context, c2)
 
                     ev = Evaluator(self.runner, sen, selected_t_suid, t_act1, t_act2, act12)

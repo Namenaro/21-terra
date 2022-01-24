@@ -16,7 +16,7 @@ class Evaluator:
 
         self.sample_by_suid1 = []
         self.sample_by_suid2 = []
-        self.sample_by_suids12 = []
+        self.sample_by_suid12 = []
 
         self.n_max_12=10
         self.n_max_1=100
@@ -25,10 +25,10 @@ class Evaluator:
     def get_sample_by_suid1(self, nattempts):
         return conditional_sample(self.runner, self.sen.suid1, self.t_suid, self.t_act1, nattempts)
 
-    def get_sample_by_suid2act(self, nattempts):
+    def get_sample_by_suid2(self, nattempts):
         return conditional_sample_2half_sen(self.runner, self.sen.suid,self.t_suid, self.t_act2,nattempts)
 
-    def get_sample_by_suids12(self,  nattempts):
+    def get_sample_by_suid12(self,  nattempts):
         return conditional_sample(self.runner, self.sen.suid, self.t_suid, self.t_act12, nattempts)
 
     def get_sample_s2_c_s1(self, sample_size):
@@ -57,27 +57,27 @@ class Evaluator:
         nattempts = 400
         if f1:
             dsample_by_suid1 = self.get_sample_by_suid1(runner, nattempts)
+            if len(dsample_by_suid1) != 0:
+                self.sample_by_suid1 = self.sample_by_suid1 + dsample_by_suid1
         if f2:
             dsample_by_suid2 = self.get_sample_by_suid2(runner, nattempts)
+            if len(dsample_by_suid2) != 0:
+                self.sample_by_suid2 = self.sample_by_suid2 + dsample_by_suid2
         if f12:
-            dsample_by_suid12 = self.get_sample_by_suids12(runner, nattempts)
+            dsample_by_suid12 = self.get_sample_by_suid12(runner, nattempts)
+            if len(dsample_by_suid12 != 0):
+                self.sample_by_suid12 = self.sample_by_suid12 + dsample_by_suid12
 
-        if len(dsample_by_suid1)!=0:
-            self.sample_by_suid1 = self.sample_by_suid1 + dsample_by_suid1
-        if len(dsample_by_suid2)!=0:
-            self.sample_by_suid2 = self.sample_by_suid2 + dsample_by_suid2
-        if len(dsample_by_suid12!=0):
-            self.sample_by_suid12 = self.sample_by_suid12 + dsample_by_suid12
 
     def check_stop_criteria(self):
         flag1 = False
         flag2 = False
         flag12 = False
-        if len(self.sample_by_suid1)>=self.self.n_max_1:
+        if len(self.sample_by_suid1)>=self.n_max_1:
             flag1=True
-        if len(self.sample_by_suid2)>=self.self.n_max_2:
+        if len(self.sample_by_suid2)>=self.n_max_2:
             flag1=True
-        if len(self.sample_by_suid12)>=self.self.n_max_12:
+        if len(self.sample_by_suid12)>=self.n_max_12:
             flag1=True
         return flag1, flag2, flag12
 
@@ -93,12 +93,12 @@ class Evaluator:
 
             self.update_samples(runner, f1, f2, f12)
 
-            p_1_vs_12 = self.test_2_samples(self.sample_by_suid1, self.sample_by_suids12)
-            p_2_vs_12 = self.test_2_samples(self.sample_by_suid2, self.sample_by_suids12)
+            p_1_vs_12 = self.test_2_samples(self.sample_by_suid1, self.sample_by_suid12)
+            p_2_vs_12 = self.test_2_samples(self.sample_by_suid2, self.sample_by_suid12)
 
             if p_1_vs_12 <=p_thr and p_2_vs_12 <=p_thr:
-               diff1 = self.check_diff(self.sample_by_suid1, self.sample_by_suids12)
-               diff2 = self.check_diff(self.sample_by_suid2, self.sample_by_suids12)
+               diff1 = self.check_diff(self.sample_by_suid1, self.sample_by_suid12)
+               diff2 = self.check_diff(self.sample_by_suid2, self.sample_by_suid12)
                return diff1 + diff2
 
 
