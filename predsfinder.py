@@ -88,7 +88,28 @@ class PredsFinder:
     def run_predictions(self):
         pass
 
-    def visualise_preds(self):
-        #finf sen=1 pic, show it and all acts from preds
-        pass
+def visualise_preds(suid, preds, runner):
+    contexts=None
+    while True:
+        runner.reset3()
+        abspoint = get_random_point()
+        res, contexts = runner.run_sen(suid, abspoint, None)
+        if res == 0:
+            continue
+        break
+    fig, ax = plt.subplots()
+    plt.imshow(runner.sensor.pic, cmap='gray_r')
+    c = random.choice(contexts)
+    i=0
+    for point in c.points:
+        strmarker = '$c' + str(i) + '$'
+        plt.scatter(point.x, point.y, s=100, c='yellow', marker=strmarker, alpha=0.9)
 
+    for pred_entry in preds:
+        color = np.random.rand(3, )
+        abspoints = pred_entry.act.get_all_variants(c)
+        for point in abspoints:
+            strmarker = '$' + str(pred_entry.suid) + '$'
+            plt.scatter(point.x, point.y, s=100, c=[color], marker=strmarker, alpha=0.9)
+
+    plt.show()
