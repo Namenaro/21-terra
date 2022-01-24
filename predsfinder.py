@@ -14,7 +14,7 @@ class PredsFinder:
         self.runner=runner
         self.suid = suid
         self.preds = []  #[pred_entry1,...]
-        self.num_attempts_allowed=5
+        self.num_attempts_allowed=1
 
     def run(self):
         sign = 0
@@ -35,6 +35,7 @@ class PredsFinder:
         acts = []
         radius = 0
         while True:
+            print(radius)
             X, Y = get_coords_less_or_eq_raduis(t_abspoint.x, t_abspoint.y, radius)
             can_expand = True
             for i in range(len(X)):
@@ -54,7 +55,7 @@ class PredsFinder:
             act.ddxs=dxs
             act.ddys = dys
             acts.append(act)
-
+            radius += 1
         return acts
 
 
@@ -80,14 +81,18 @@ class PredsFinder:
             context = random.choice(contexts)
             self.run_predictions(context)
             self.runner.registrator.is_on = False
-
+            print("registered all trivial")
             # можно искать редкие сущности в округе:
             while True:
                 t_abspoint = get_random_point()
                 t_suids = self.runner.get_all_suids_in_point(t_abspoint)
                 t_suids = self.runner.registrator.filter_trivials_from_list(t_suids)
+                if len(t_suids)==0:
+                    continue
                 selected_t_suid = random.choice(t_suids)
-                someacts = self.create_act_for_pred(self, selected_t_suid, t_abspoint, context)
+                print("found nontrivial event, suid " + str(selected_t_suid))
+                someacts = self.create_act_for_pred(selected_t_suid, t_abspoint, context)
+                print("created acts:" + str(len(someacts)))
                 signs = []
                 for act12 in someacts:
                     c1 = Context()

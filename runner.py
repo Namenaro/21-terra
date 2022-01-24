@@ -79,8 +79,10 @@ class Runner:
         else:
             res = 1
         if res == 1 and etalon !=0:
+            self.registrator.register(suid, abspoint)
             return 1, result_contexts
         if res == 0 and etalon==0:
+            self.registrator.register(suid, abspoint)
             return 1, []
         return 0, []
 
