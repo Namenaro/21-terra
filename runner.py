@@ -101,7 +101,15 @@ class Runner:
         return 0, []
 
     def get_all_suids_in_point(self, abspoint):
-        pass
+        res_suids = []
+        for suid in self.linker.events:
+            res, _ = self.run_sen(suid,abspoint, None)
+            if res ==1:
+                res_suids.append(suid)
+        return res_suids
+
+
+
 
 
 
