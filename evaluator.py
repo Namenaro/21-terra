@@ -5,10 +5,11 @@ import scipy.stats.distributions as dist
 from statsmodels.stats.proportion import proportions_ztest
 
 class Evaluator:
-    def __init__(self, runner, sen, t_suid, t_act1, t_act2, t_act12):
+    def __init__(self, runner, sen, t_suid, t_etalon, t_act1, t_act2, t_act12):
         self.runner = runner
         self.sen = sen
         self.t_suid = t_suid
+        self.t_etalon = t_etalon
 
         self.t_act1 = t_act1
         self.t_act2 = t_act2
@@ -18,18 +19,24 @@ class Evaluator:
         self.sample_by_suid2 = []
         self.sample_by_suid12 = []
 
-        self.n_max_12=20
-        self.n_max_1=50
-        self.n_max_2=50
+        self.n_max_12=55
+        self.n_max_1=100
+        self.n_max_2=100
 
     def get_sample_by_suid1(self, n1):
-        return conditional_sample(self.runner, self.sen.suid1, self.sen.etalon1, self.t_suid, self.t_act1, n1)
+        s= conditional_sample(self.runner, self.sen.suid1, self.sen.etalon1, self.t_suid, self.t_etalon, self.t_act1, n1)
+        print("d_1: " + str(s))
+        return s
 
     def get_sample_by_suid2(self, n2):
-        return conditional_sample_2half_sen(self.runner, self.sen.s_uid, self.t_suid, self.t_act2, n2)
+        s= conditional_sample_2half_sen(self.runner, self.sen.s_uid, self.t_suid, self.t_etalon, self.t_act2, n2)
+        print("d_2: " + str(s))
+        return s
 
     def get_sample_by_suid12(self,  n12):
-        return conditional_sample(self.runner, self.sen.s_uid, None, self.t_suid, self.t_act12, n12)
+        s= conditional_sample(self.runner, self.sen.s_uid, 1, self.t_suid, self.t_etalon, self.t_act12, n12)
+        print("d_12: "+ str(s))
+        return s
 
     def get_sample_s2_c_s1(self, sample_size):
         return measure_p_of_c2act_by_c1(self.runner, self.sen.s_uid, sample_size)
@@ -58,7 +65,7 @@ class Evaluator:
         print("update")
         n1=10
         n2=10
-        n12=5
+        n12=10
         if not f1:
             d1 = self.get_sample_by_suid1(n1)
             if len(d1) != 0:
@@ -88,7 +95,7 @@ class Evaluator:
 
 
     def eval_significange(self): # 0 - min, no significance
-        p_thr = 0.0001
+        p_thr = 0.002
         print("start eval of pred..")
         while True:
             f1,f2,f12 = self.check_stop_criteria()
@@ -106,6 +113,9 @@ class Evaluator:
             if p_1_vs_12 <=p_thr and p_2_vs_12 <=p_thr:
                diff1 = self.check_diff(self.sample_by_suid1, self.sample_by_suid12)
                diff2 = self.check_diff(self.sample_by_suid2, self.sample_by_suid12)
+               print("p(t=1|c1)="+ str(self.sample_to_p(self.sample_by_suid1)))
+               print("p(t=1|c2)=" + str(self.sample_to_p(self.sample_by_suid2)))
+               print("p(t=1|c12)=" + str(self.sample_to_p(self.sample_by_suid12)))
                return diff1 + diff2
 
 

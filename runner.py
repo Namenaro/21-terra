@@ -57,7 +57,7 @@ class Runner:
                     res2, contexts2 = self.run_sen(sen.suid2, abspoint2, sen.etalon2)
                     if res2 == 0: # из этой точки запуск второй подпрограммы не успешен
                         continue
-                    self.reg.register(sen.suid2, abspoint2)
+                    self.registrator.register(sen.suid2, abspoint2)
                     for c2 in contexts2:
                         c = merge_2_contexts(context1, c2)
                         result_contexts.append(c)

@@ -14,7 +14,7 @@ class PredsFinder:
         self.runner=runner
         self.suid = suid
         self.preds = []  #[pred_entry1,...]
-        self.num_attempts_allowed=3
+        self.num_attempts_allowed=50
 
     def run(self):
         sign = 0
@@ -26,6 +26,9 @@ class PredsFinder:
             sign +=significance
             if significance>0:
                 self.preds.append(pred_entry)
+                if len(self.preds)>4:
+                    break
+
 
         p_of_s2 = measure_p_of_c2act_by_c1(self.runner, self.suid, sample_size=20)
         print ("overall sinidicance of + act_c2 is "+ str(sign))
@@ -58,9 +61,10 @@ class PredsFinder:
             act.ddxs=dxs
             act.ddys = dys
             acts.append(act)
-            radius += 1
-            if radius == max_raduis:
+            radius += 2
+            if radius > max_raduis:
                 break
+
         return acts
 
 
@@ -94,7 +98,7 @@ class PredsFinder:
                 t_suids = self.runner.registrator.filter_trivials_from_list(t_suids)
                 if len(t_suids)==0:
                     continue
-                selected_t_suid = random.choice(t_suids)
+                selected_t_suid = max(t_suids)
                 print("found nontrivial event, suid " + str(selected_t_suid))
                 someacts = self.create_act_for_pred(selected_t_suid, t_abspoint, context)
                 print("created acts:" + str(len(someacts)))
@@ -109,14 +113,15 @@ class PredsFinder:
                     c2.points = context.points[len_of_c1:]
                     t_act2 = act12.copy_to_other_context(context, c2)
 
-                    ev = Evaluator(self.runner, sen, selected_t_suid, t_act1, t_act2, act12)
+                    ev = Evaluator(self.runner, sen, selected_t_suid, 1,t_act1, t_act2, act12)
                     sign = ev.eval_significange()
                     print("significange for act ="+ str(sign))
                     signs.append(sign)
-                if max(signs) > 0:
-                    index = signs.index(max(signs))
-                    best_pred = PredEntry(selected_t_suid, someacts[index])
-                    return best_pred, signs[index]
+                if len(signs)!=0:
+                    if max(signs) > 0:
+                        index = signs.index(max(signs))
+                        best_pred = PredEntry(selected_t_suid, someacts[index])
+                        return best_pred, signs[index]
                 return None, 0
 
 
@@ -151,4 +156,4 @@ def visualise_preds(suid, preds, runner):
             strmarker = '$' + str(pred_entry.suid) + '$'
             plt.scatter(point.x, point.y, s=100, c=[color], marker=strmarker, alpha=0.9)
 
-    plt.show()
+    return fig

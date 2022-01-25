@@ -4,7 +4,7 @@ from utils import *
 from context import *
 max_attempts = 5000000
 
-def conditional_sample(runner, suid, suid_etalon, t_suid, t_act, n):
+def conditional_sample(runner, suid, suid_etalon, t_suid,  t_suid_etalon, t_act, n):
     sample = []
     for i in range(max_attempts):
         if len(sample)==n:
@@ -16,14 +16,23 @@ def conditional_sample(runner, suid, suid_etalon, t_suid, t_act, n):
         if res == 0:
             continue
 
+        res_for_context = 0
         for context in contexts:
-            abspoint2 = context.get_by_index(t_act.index_in_context)
-            res, _ = runner.run_sen(t_suid, abspoint2, None)
-            sample.append(res)
+            abspoints2 = t_act.get_all_variants(context)
+
+            for abspoint2 in abspoints2:
+                res, _ = runner.run_sen(t_suid, abspoint2, t_suid_etalon)
+                if res==1:
+                    res_for_context=1
+                    break
+            if res_for_context==1:
+                break
+        sample.append(res_for_context)
+
     return sample
 
 
-def conditional_sample_2half_sen(runner, suid, t_suid, t_act, n):
+def conditional_sample_2half_sen(runner, suid, t_suid, t_suid_etalon, t_act, n):
     sample = []
 
     for i in range(max_attempts):
@@ -35,10 +44,18 @@ def conditional_sample_2half_sen(runner, suid, t_suid, t_act, n):
         if res == 0:
             continue
 
+        res_for_context = 0
         for context in contexts:
-            abspoint2 = context.get_by_index(t_act.index_in_context)
-            res, _ = runner.run_sen(t_suid, abspoint2, None)
-            sample.append(res)
+            abspoints2 = t_act.get_all_variants(context)
+
+            for abspoint2 in abspoints2:
+                res, _ = runner.run_sen(t_suid, abspoint2, t_suid_etalon)
+                if res == 1:
+                    res_for_context = 1
+                    break
+            if res_for_context == 1:
+                break
+        sample.append(res_for_context)
     return sample
 
 def measure_p_of_c2act_by_c1(runner, suid, sample_size):
