@@ -16,49 +16,7 @@ def fill_linker(linker):
     linker.add_sen(sen1)
     return sen1.s_uid
 
-def fill_linker3(linker):
-    act1 = Act(dx=5, dy=0, index_in_context=0)
-    act1.set_raduis_of_uncert(0)
-    sen1 = Sen(suid=linker.generate_uid(),
-               suid1=linker.basic_suid, etalon1=1,
-               act=act1,
-               suid2=linker.basic_suid, etalon2=1,
-               is_fixed=True
-               )
-    linker.add_sen(sen1)
 
-    act2 = Act(dx=2, dy=0, index_in_context=0)
-    act2.set_raduis_of_uncert(0)
-    sen2 = Sen(suid=linker.generate_uid(),
-               suid1=sen1.s_uid, etalon1=1,
-               act=act2,
-               suid2=linker.basic_suid, etalon2=1,
-               is_fixed=True
-               )
-    linker.add_sen(sen2)
-    return sen2.s_uid
-
-def fill_linker2(linker):
-    act1 = Act(dx=6, dy=0, index_in_context=0)
-    act1.set_raduis_of_uncert(1)
-    sen1 = Sen(suid=linker.generate_uid(),
-               suid1=linker.basic_suid, etalon1=1,
-               act=act1,
-               suid2=linker.basic_suid, etalon2=1,
-               is_fixed=True
-               )
-    linker.add_sen(sen1)
-
-    act2 = Act(dx=3, dy=16, index_in_context=1)
-    act2.set_raduis_of_uncert(3)
-    sen2 = Sen(suid=linker.generate_uid(),
-               suid1=sen1.s_uid, etalon1=1,
-               act=act2,
-               suid2=linker.basic_suid, etalon2=1,
-               is_fixed=True
-               )
-    linker.add_sen(sen2)
-    return sen2.s_uid
 
 def get_example_context(suid):
     runner.reset()
@@ -104,8 +62,6 @@ def get_len_of_c1(suid, runner):
             if len(contexts)!=0:
                 return len(contexts[0].points)
 
-def draw_act(context, act):
-    pass
 
 if __name__ == "__main__":
     linker = ELinker()
@@ -118,7 +74,7 @@ if __name__ == "__main__":
     t_abspoint = get_point_handly(runner.sensor.pic)
     t_suids = runner.get_all_suids_in_point(t_abspoint)
     print("found suids: "+ str(t_suids))
-    t_suid= max(t_suids)
+    t_suid= min(t_suids)
     print("selected="+ str(t_suid))
 
     act12 = get_act(c, t_abspoint, radius=0)

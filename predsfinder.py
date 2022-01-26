@@ -14,7 +14,7 @@ class PredsFinder:
         self.runner=runner
         self.suid = suid
         self.preds = []  #[pred_entry1,...]
-        self.num_attempts_allowed=50
+        self.num_attempts_allowed=100
 
     def run(self):
         sign = 0
