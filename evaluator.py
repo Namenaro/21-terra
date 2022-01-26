@@ -95,7 +95,7 @@ class Evaluator:
 
 
     def eval_significange(self): # 0 - min, no significance
-        p_thr = 0.002
+        p_thr = 0.005
         print("start eval of pred..")
         while True:
             f1,f2,f12 = self.check_stop_criteria()
